@@ -1,9 +1,9 @@
 {
   "name": "cross-origin-courier",
   "version": "0.1.0",
-  "description": "",
+  "description": "TODO",
   "author": "Sergey Chernykh <s-chernykh@outlook.com> (https://github.com/serglider/)",
-  "homepage": "https://github.com/serglider/rollup-plugin-typedoc",
+  "homepage": " https://github.com/serglider/CrossOriginCourier.git",
   "keywords": [
     "typedoc",
     "rollup",
@@ -14,7 +14,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/serglider/rollup-plugin-typedoc.git"
+    "url": " https://github.com/serglider/CrossOriginCourier.git"
   },
   "main": "index.js",
   "scripts": {
