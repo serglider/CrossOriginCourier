@@ -8,25 +8,28 @@ function isFunction(func) {
     return typeof func === 'function';
 }
 
-const DEFAULT_PASSPHRASE = 'DEFAULT_PASSPHRASE';
+const defaultOptions = {
+    dataHandler: (data) => {},
+    passphrase: 'DEFAULT_PASSPHRASE',
+    isParent: false,
+    targetOrigin: '*',
+};
 
 export default class CrossOriginCourier {
-    constructor() {
-        this._passphrase = '';
-        this._handler = null;
+    constructor(options) {
+        this._options = Object.assign(defaultOptions, options);
         this._port = null;
         this._connectResolver = null;
     }
 
-    connect(handler, isParent, passphrase = DEFAULT_PASSPHRASE) {
-        if (!isFunction(handler)) {
+    connect(dataHandler) {
+        if (!isFunction(dataHandler)) {
             return Promise.resolve('Invalid data handler');
         }
-        this._handler = createCustomHandler(handler);
-        this._passphrase = passphrase;
+        this._handler = createCustomHandler(dataHandler);
         return new Promise((resolve) => {
             this._connectResolver = resolve;
-
+            const { isParent } = this._options;
             if (isParent) {
                 this._initParent();
             } else {
@@ -44,10 +47,11 @@ export default class CrossOriginCourier {
     }
 
     _initChild() {
+        const { passphrase, targetOrigin } = this._options;
         const channel = new MessageChannel();
         this._port = channel.port1;
         this._port.onmessage = this._onPingFromParent.bind(this);
-        window.parent.postMessage(this._passphrase, '*', [channel.port2]);
+        window.parent.postMessage(passphrase, targetOrigin, [channel.port2]);
     }
 
     _initParent() {
@@ -55,17 +59,21 @@ export default class CrossOriginCourier {
         window.addEventListener('message', onInitMessage);
     }
 
-    _onPingFromParent() {
-        this._port.onmessage = this._handler;
-        this._connectResolver(this);
+    _onPingFromParent({ data }) {
+        const { passphrase } = this._options;
+        if (passphrase === data) {
+            this._port.onmessage = this._handler;
+            this._connectResolver(this);
+        }
     }
 
     _onPingFromChild({ data, ports }) {
-        const isOk = data === this._passphrase && ports && ports[0];
+        const { passphrase } = this._options;
+        const isOk = data === passphrase && ports && ports[0];
         if (isOk) {
             this._port = ports[0];
             this._port.onmessage = this._handler;
-            this._port.postMessage('777');
+            this._port.postMessage(passphrase);
             this._connectResolver(this);
         }
     }
