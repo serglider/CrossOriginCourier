@@ -12,15 +12,34 @@
     "type": "git",
     "url": " https://github.com/serglider/CrossOriginCourier.git"
   },
-  "main": "index.js",
+  "files": [
+    "lib",
+    "declarations"
+  ],
+  "main": "lib/cross-origin-courier.cjs.js",
+  "module": "lib/cross-origin-courier.esm.js",
+  "browser": "lib/cross-origin-courier.umd.js",
+  "typings": "declarations",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c rollup/prod.config.js",
+    "prebuild": "npm run declarations",
+    "dev-build": "rollup -c rollup/dev.config.js",
+    "dev": "rollup -c rollup/dev.config.js -w",
+    "declarations": "tsc --moduleResolution node --emitDeclarationOnly"
   },
   "devDependencies": {
-    "prettier": "^2.2.1"
+    "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
+    "@rollup/plugin-typescript": "^8.1.1",
+    "rollup": "^2.38.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "prettier": "^2.2.1",
+    "tslib": "^2.1.0",
+    "typescript": "^4.1.5"
   },
   "prettier": {
-    "trailingComma": "es5",
+    "parser": "typescript",
+    "trailingComma": "all",
     "printWidth": 100,
     "tabWidth": 4,
     "semi": true,

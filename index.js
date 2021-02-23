@@ -15,6 +15,8 @@ const defaultOptions = {
     targetOrigin: '*',
 };
 
+// https://medium.com/openmindonline/js-monday-17-publishing-a-typescript-library-59dd8200f80d
+// https://basarat.gitbook.io/typescript/library
 export default class CrossOriginCourier {
     constructor(options) {
         this._options = Object.assign(defaultOptions, options);

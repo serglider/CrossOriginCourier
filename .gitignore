@@ -1,5 +1,6 @@
 node_modules/
 misc/
+lib/
 package-lock.json
 .idea/
 .vscode/
