@@ -26,8 +26,7 @@
     "dev-build": "rollup -c rollup/dev.config.js",
     "dev": "rollup -c rollup/dev.config.js -w",
     "declarations": "tsc --emitDeclarationOnly",
-    "docs": "typedoc src",
-    "prepare": "typedoc src"
+    "docs": "typedoc src"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
