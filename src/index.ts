@@ -1,11 +1,8 @@
 import { createCustomHandler, isFunction } from './utils';
 import { DataHandler, EventHandler, CrossOriginCourierOptions } from './types';
+import defaultOptions from './defaults';
 
-const defaultOptions = {
-    passphrase: 'DEFAULT_PASSPHRASE',
-    isParent: false,
-    targetOrigin: '*',
-};
+type CrossOriginCourierInstance = InstanceType<typeof CrossOriginCourier>;
 
 export default class CrossOriginCourier {
     private readonly options: CrossOriginCourierOptions;
@@ -20,11 +17,11 @@ export default class CrossOriginCourier {
     }
 
     /**
-     * todo
+     * Prepares a connection channel and returns a Promise which resolves once the connection established.
      * @param dataHandler
      * @public
      */
-    connect(dataHandler: DataHandler): Promise<this> {
+    connect(dataHandler: DataHandler): Promise<CrossOriginCourierInstance> {
         if (!isFunction(dataHandler)) {
             return Promise.reject('Invalid data handler');
         }
@@ -41,7 +38,8 @@ export default class CrossOriginCourier {
     }
 
     /**
-     * todo
+     * Sends data to the counterparty given the connection is established.
+     * If not, it issues a warning message in the console.
      * @param data
      * @public
      */
@@ -54,7 +52,7 @@ export default class CrossOriginCourier {
     }
 
     /**
-     * todo
+     * Prepares a connection channel employing MessageChannel and issues a ping to the parent context.
      * @private
      */
     initChild() {
@@ -66,7 +64,7 @@ export default class CrossOriginCourier {
     }
 
     /**
-     * todo
+     * Prepares a connection channel by setting a listener to a ping from the child context.
      * @private
      */
     initParent() {
@@ -75,7 +73,7 @@ export default class CrossOriginCourier {
     }
 
     /**
-     * todo
+     * On ping from the parent context, sets a message listener and resolves the connection promise.
      * @private
      */
     onPingFromParent({ data }: MessageEvent) {
@@ -88,7 +86,7 @@ export default class CrossOriginCourier {
     }
 
     /**
-     * todo
+     * On ping from the child context, sets a message listener and resolves the connection promise.
      * @private
      */
     onPingFromChild({ data, ports }: MessageEvent) {

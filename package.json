@@ -22,19 +22,22 @@
   "typings": "declarations",
   "scripts": {
     "build": "rollup -c rollup/prod.config.js",
-    "prebuild": "npm run declarations",
+    "prebuild": "npm run declarations && npm run docs",
     "dev-build": "rollup -c rollup/dev.config.js",
     "dev": "rollup -c rollup/dev.config.js -w",
-    "declarations": "tsc --moduleResolution node --emitDeclarationOnly"
+    "declarations": "tsc --emitDeclarationOnly",
+    "docs": "typedoc src",
+    "prepare": "typedoc src"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
     "@rollup/plugin-typescript": "^8.1.1",
+    "prettier": "^2.2.1",
     "rollup": "^2.38.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-node-resolve": "^5.2.0",
-    "prettier": "^2.2.1",
     "tslib": "^2.1.0",
+    "typedoc": "^0.20.28",
     "typescript": "^4.1.5"
   },
   "prettier": {

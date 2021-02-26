@@ -1,4 +1,5 @@
 import { DataHandler, CrossOriginCourierOptions } from './types';
+declare type CrossOriginCourierInstance = InstanceType<typeof CrossOriginCourier>;
 export default class CrossOriginCourier {
     private readonly options;
     private isConnected;
@@ -7,35 +8,37 @@ export default class CrossOriginCourier {
     private handler;
     constructor(options: Partial<CrossOriginCourierOptions>);
     /**
-     * todo
+     * Prepares a connection channel and returns a Promise which resolves once the connection established.
      * @param dataHandler
      * @public
      */
-    connect(dataHandler: DataHandler): Promise<this>;
+    connect(dataHandler: DataHandler): Promise<CrossOriginCourierInstance>;
     /**
-     * todo
+     * Sends data to the counterparty given the connection is established.
+     * If not, it issues a warning message in the console.
      * @param data
      * @public
      */
     send(data: any): void;
     /**
-     * todo
+     * Prepares a connection channel employing MessageChannel and issues a ping to the parent context.
      * @private
      */
     initChild(): void;
     /**
-     * todo
+     * Prepares a connection channel by setting a listener to a ping from the child context.
      * @private
      */
     initParent(): void;
     /**
-     * todo
+     * On ping from the parent context, sets a message listener and resolves the connection promise.
      * @private
      */
     onPingFromParent({ data }: MessageEvent): void;
     /**
-     * todo
+     * On ping from the child context, sets a message listener and resolves the connection promise.
      * @private
      */
     onPingFromChild({ data, ports }: MessageEvent): void;
 }
+export {};
