@@ -26,7 +26,7 @@
     "dev-build": "rollup -c rollup/dev.config.js",
     "dev": "rollup -c rollup/dev.config.js -w",
     "declarations": "tsc --emitDeclarationOnly",
-    "docs": "typedoc src"
+    "docs": "typedoc src && node scripts/create-nojekill"
   },
   "devDependencies": {
     "@ampproject/rollup-plugin-closure-compiler": "^0.26.0",
