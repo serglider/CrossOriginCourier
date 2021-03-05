@@ -7,7 +7,7 @@ export default [
     {
         input: 'src/index.ts',
         output: {
-            name: 'CrossOriginCourier',
+            name: 'createCrossOrigConnection',
             file: pkg.browser,
             format: 'umd',
             sourcemap: true,

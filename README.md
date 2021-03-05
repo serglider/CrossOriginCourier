@@ -9,11 +9,9 @@
 
 # cross-origin-courier
 
-description - todo
+A wrapper over `Window.postMessage()` and `MessageChannel` to facilitate messaging between cross origin contexts.
 
-## Usage
-
-todo
+The library exposes a connection function that returns a `Promise`. On a successful connection, the `Promise` is resolved with the `courier` object to be used to send and listen to messages. **Note**: the child frame should call the connection function first.
 
 ## Setup
 
@@ -24,10 +22,11 @@ npm i cross-origin-courier
 ```
 
 ```js
-import createConnection from 'cross-origin-courier';
+import connect from 'cross-origin-courier';
 // ...
-createConnection().then(courier => {
+connect().then(courier => {
     courier.listen(handler);
+    courier.send({ answer: 42 });
 });
 
 function handler(data) {
@@ -41,14 +40,12 @@ function handler(data) {
 <script src="https://unpkg.com/cross-origin-courier"></script>
 ```
 
-```js
-window.createConnection().then(courier => {
-    courier.listen(handler);
-});
+Loaded this way, the connection function is exposed under the following long-ish name
 
-function handler(data) {
-    // do your stuff
-}
+```js
+window.createCrossOrigConnection().then(courier => {
+    // ...
+});
 ```
 
 ## Options
@@ -69,6 +66,15 @@ createConnection(options).then(courier => {
 |   `passphrase` | string  | 'DEFAULT_PASSPHRASE' | todo        |
 | `targetOrigin` | string  |                 '\*' | todo        |
 |     `isParent` | boolean |                false | todo        |
+
+## Courier API
+
+|   Method |                 Arguments                 | Description                                  |
+| -------: | :---------------------------------------: | :------------------------------------------- |
+|   `send` | `data`<[any][structured_clone_algorithm]> | Sends data to the counterparty               |
+| `listen` |    `dataHandler`<(data: any) => void>     | Sets a handler for the counterparty messages |
+
+[structured_clone_algorithm]: https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
 
 ## Documentation
 
