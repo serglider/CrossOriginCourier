@@ -3,7 +3,7 @@
 ![NPM](https://img.shields.io/npm/l/cross-origin-courier)
 ![GitHub top language](https://img.shields.io/github/languages/top/serglider/CrossOriginCourier)
 
-> #### This project is in active development.
+> #### This project is under active development.
 >
 > #### Until major version released, the API is a subject to change.
 
