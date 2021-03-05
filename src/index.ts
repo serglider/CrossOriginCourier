@@ -1,65 +1,35 @@
-import { createCustomHandler, isFunction } from './utils';
-import { DataHandler, EventHandler, CrossOriginCourierOptions } from './types';
+import Courier from './Courier';
+import { JointOptions } from './types';
 import defaultOptions from './defaults';
 
-type CrossOriginCourierInstance = InstanceType<typeof CrossOriginCourier>;
+type CourierInstance = InstanceType<typeof Courier>;
 
-export default class CrossOriginCourier {
-    private readonly options: CrossOriginCourierOptions;
-    private isConnected: boolean;
-    private port!: MessagePort;
-    private connectResolver!: (value: PromiseLike<this> | this) => void;
-    private handler!: EventHandler;
+/**
+ * Prepares a connection channel and returns a Promise which resolves once the connection established.
+ */
+export default function createConnection(config: Partial<JointOptions>): Promise<CourierInstance> {
+    const options = Object.assign(defaultOptions, config);
+    let connectResolver: (value: PromiseLike<CourierInstance> | CourierInstance) => void;
+    let port: MessagePort;
 
-    constructor(options: Partial<CrossOriginCourierOptions>) {
-        this.options = Object.assign(defaultOptions, options);
-        this.isConnected = false;
-    }
-
-    /**
-     * Prepares a connection channel and returns a Promise which resolves once the connection established.
-     * @param dataHandler
-     * @public
-     */
-    connect(dataHandler: DataHandler): Promise<CrossOriginCourierInstance> {
-        if (!isFunction(dataHandler)) {
-            return Promise.reject('Invalid data handler');
-        }
-        this.handler = createCustomHandler(dataHandler);
-        return new Promise((resolve) => {
-            this.connectResolver = resolve;
-            const { isParent } = this.options;
-            if (isParent) {
-                this.initParent();
-            } else {
-                this.initChild();
-            }
-        });
-    }
-
-    /**
-     * Sends data to the counterparty given the connection is established.
-     * If not, it issues a warning message in the console.
-     * @param data
-     * @public
-     */
-    send(data: any) {
-        if (this.isConnected) {
-            (this.port as MessagePort).postMessage(data);
+    return new Promise(resolve => {
+        connectResolver = resolve;
+        if (options.isParent) {
+            initParent();
         } else {
-            console.warn('receiver is not connected');
+            initChild();
         }
-    }
+    });
 
     /**
      * Prepares a connection channel employing MessageChannel and issues a ping to the parent context.
      * @private
      */
-    initChild() {
-        const { passphrase, targetOrigin } = this.options;
+    function initChild() {
+        const { passphrase, targetOrigin } = options;
         const channel = new MessageChannel();
-        this.port = channel.port1;
-        this.port.onmessage = this.onPingFromParent.bind(this);
+        port = channel.port1;
+        port.onmessage = onPingFromParent;
         window.parent.postMessage(passphrase, targetOrigin, [channel.port2]);
     }
 
@@ -67,21 +37,19 @@ export default class CrossOriginCourier {
      * Prepares a connection channel by setting a listener to a ping from the child context.
      * @private
      */
-    initParent() {
-        const onInitMessage = this.onPingFromChild.bind(this);
-        window.addEventListener('message', onInitMessage);
+    function initParent() {
+        window.addEventListener('message', onPingFromChild);
     }
 
     /**
      * On ping from the parent context, sets a message listener and resolves the connection promise.
      * @private
      */
-    onPingFromParent({ data }: MessageEvent) {
-        const { passphrase } = this.options;
+    function onPingFromParent({ data }: MessageEvent) {
+        const { passphrase } = options;
         if (passphrase === data) {
-            (this.port as MessagePort).onmessage = this.handler;
-            this.connectResolver(this);
-            this.isConnected = true;
+            const courier = new Courier(port);
+            connectResolver(courier);
         }
     }
 
@@ -89,15 +57,13 @@ export default class CrossOriginCourier {
      * On ping from the child context, sets a message listener and resolves the connection promise.
      * @private
      */
-    onPingFromChild({ data, ports }: MessageEvent) {
-        const { passphrase } = this.options;
-        const isOk = data === passphrase && ports && ports[0];
-        if (isOk) {
-            this.port = ports[0];
-            this.port.onmessage = this.handler;
-            this.port.postMessage(passphrase);
-            this.connectResolver(this);
-            this.isConnected = true;
+    function onPingFromChild({ data, ports }: MessageEvent) {
+        const { passphrase } = options;
+        const isPingFromChild = data === passphrase && ports && ports[0];
+        if (isPingFromChild) {
+            const courier = new Courier(ports[0]);
+            courier.send(passphrase);
+            connectResolver(courier);
         }
     }
 }

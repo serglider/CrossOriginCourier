@@ -58,14 +58,105 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
+				<p><img src="https://img.shields.io/npm/v/cross-origin-courier" alt="npm">
+					<img src="https://img.shields.io/bundlephobia/minzip/cross-origin-courier" alt="npm bundle size">
+					<img src="https://img.shields.io/npm/l/cross-origin-courier" alt="NPM">
+				<img src="https://img.shields.io/github/languages/top/serglider/CrossOriginCourier" alt="GitHub top language"></p>
+				<blockquote>
+					<a href="#this-project-is-in-active-development" id="this-project-is-in-active-development" style="color: inherit; text-decoration: none;">
+						<h4>This project is in active development.</h4>
+					</a>
+					<a href="#until-major-version-released-the-api-is-a-subject-to-change" id="until-major-version-released-the-api-is-a-subject-to-change" style="color: inherit; text-decoration: none;">
+						<h4>Until major version released, the API is a subject to change.</h4>
+					</a>
+				</blockquote>
 				<a href="#cross-origin-courier" id="cross-origin-courier" style="color: inherit; text-decoration: none;">
 					<h1>cross-origin-courier</h1>
 				</a>
+				<p>description - todo</p>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<p>todo</p>
+				<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
+					<h2>Setup</h2>
+				</a>
+				<a href="#npm" id="npm" style="color: inherit; text-decoration: none;">
+					<h4>NPM</h4>
+				</a>
+				<pre><code class="language-bash"><span style="color: #000000">npm i cross-origin-courier</span>
+</code></pre>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">createConnection</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;cross-origin-courier&#039;</span><span style="color: #000000">;</span>
+<span style="color: #008000">// ...</span>
+<span style="color: #795E26">createConnection</span><span style="color: #000000">().</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">courier</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">courier</span><span style="color: #000000">.</span><span style="color: #795E26">listen</span><span style="color: #000000">(</span><span style="color: #001080">handler</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">handler</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// do your stuff</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<a href="#cdn" id="cdn" style="color: inherit; text-decoration: none;">
+					<h4>CDN</h4>
+				</a>
+				<pre><code class="language-html"><span style="color: #800000">&lt;script</span><span style="color: #000000FF"> </span><span style="color: #FF0000">src</span><span style="color: #000000FF">=</span><span style="color: #0000FF">&quot;https://unpkg.com/cross-origin-courier&quot;</span><span style="color: #800000">&gt;&lt;/script&gt;</span>
+</code></pre>
+				<pre><code class="language-js"><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">createConnection</span><span style="color: #000000">().</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">courier</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #001080">courier</span><span style="color: #000000">.</span><span style="color: #795E26">listen</span><span style="color: #000000">(</span><span style="color: #001080">handler</span><span style="color: #000000">);</span>
+<span style="color: #000000">});</span>
+
+<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">handler</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// do your stuff</span>
+<span style="color: #000000">}</span>
+</code></pre>
+				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
+					<h2>Options</h2>
+				</a>
+				<pre><code class="language-js"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">options</span><span style="color: #000000"> = {</span>
+<span style="color: #000000">    </span><span style="color: #001080">passphrase:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;foo-bar-baz-qux&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">isParent:</span><span style="color: #000000"> </span><span style="color: #0000FF">true</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">targetOrigin:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;*&#039;</span><span style="color: #000000">,</span>
+<span style="color: #000000">};</span>
+<span style="color: #795E26">createConnection</span><span style="color: #000000">(</span><span style="color: #001080">options</span><span style="color: #000000">).</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">courier</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// ...</span>
+<span style="color: #000000">});</span>
+</code></pre>
+				<table>
+					<thead>
+						<tr>
+							<th align="right">Option</th>
+							<th align="center">Type</th>
+							<th align="right">Default</th>
+							<th align="left">Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="right"><code>passphrase</code></td>
+							<td align="center">string</td>
+							<td align="right">&#39;DEFAULT_PASSPHRASE&#39;</td>
+							<td align="left">todo</td>
+						</tr>
+						<tr>
+							<td align="right"><code>targetOrigin</code></td>
+							<td align="center">string</td>
+							<td align="right">&#39;*&#39;</td>
+							<td align="left">todo</td>
+						</tr>
+						<tr>
+							<td align="right"><code>isParent</code></td>
+							<td align="center">boolean</td>
+							<td align="right">false</td>
+							<td align="left">todo</td>
+						</tr>
+				</tbody></table>
+				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
+					<h2>Documentation</h2>
+				</a>
+				<p>Please find the full docs <a href="https://serglider.github.io/CrossOriginCourier/">here</a></p>
 				<a href="#license" id="license" style="color: inherit; text-decoration: none;">
 					<h2>License</h2>
 				</a>
-				<p>Copyright © 2021, <a href="https://github.com/serglider">Sergey Chernykh</a>.
-				Released under the <a href="LICENSE">MIT License</a>.</p>
+				<p>Copyright © 2021, <a href="https://github.com/serglider">Sergey Chernykh</a>. Released under the <a href="LICENSE">MIT License</a>.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -73,6 +164,9 @@
 				<ul>
 					<li class=" ">
 						<a href="modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/courier.html">Courier</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/defaults.html">defaults</a>

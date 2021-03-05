@@ -3,11 +3,16 @@
 ![NPM](https://img.shields.io/npm/l/cross-origin-courier)
 ![GitHub top language](https://img.shields.io/github/languages/top/serglider/CrossOriginCourier)
 
+> #### This project is in active development.
+>
+> #### Until major version released, the API is a subject to change.
+
 # cross-origin-courier
 
 description - todo
 
 ## Usage
+
 todo
 
 ## Setup
@@ -19,9 +24,15 @@ npm i cross-origin-courier
 ```
 
 ```js
-import CrossOriginCourier from 'cross-origin-courier';
+import createConnection from 'cross-origin-courier';
 // ...
-const courier = new CrossOriginCourier();
+createConnection().then(courier => {
+    courier.listen(handler);
+});
+
+function handler(data) {
+    // do your stuff
+}
 ```
 
 #### CDN
@@ -31,7 +42,13 @@ const courier = new CrossOriginCourier();
 ```
 
 ```js
-const courier = new window.CrossOriginCourier();
+window.createConnection().then(courier => {
+    courier.listen(handler);
+});
+
+function handler(data) {
+    // do your stuff
+}
 ```
 
 ## Options
@@ -42,7 +59,9 @@ const options = {
     isParent: true,
     targetOrigin: '*',
 };
-const courier = new CrossOriginCourier(options);
+createConnection(options).then(courier => {
+    // ...
+});
 ```
 
 |         Option |  Type   |              Default | Description |
@@ -50,7 +69,6 @@ const courier = new CrossOriginCourier(options);
 |   `passphrase` | string  | 'DEFAULT_PASSPHRASE' | todo        |
 | `targetOrigin` | string  |                 '\*' | todo        |
 |     `isParent` | boolean |                false | todo        |
-
 
 ## Documentation
 
