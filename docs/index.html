@@ -73,11 +73,8 @@
 				<a href="#cross-origin-courier" id="cross-origin-courier" style="color: inherit; text-decoration: none;">
 					<h1>cross-origin-courier</h1>
 				</a>
-				<p>description - todo</p>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<p>todo</p>
+				<p>A wrapper over <code>Window.postMessage()</code> and <code>MessageChannel</code> to facilitate messaging between cross origin contexts.</p>
+				<p>The library exposes a connection function that returns a <code>Promise</code>. On a successful connection, the <code>Promise</code> is resolved with the <code>courier</code> object to be used to send and listen to messages. <strong>Note</strong>: the child frame should call the connection function first.</p>
 				<a href="#setup" id="setup" style="color: inherit; text-decoration: none;">
 					<h2>Setup</h2>
 				</a>
@@ -86,10 +83,11 @@
 				</a>
 				<pre><code class="language-bash"><span style="color: #000000">npm i cross-origin-courier</span>
 </code></pre>
-				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">createConnection</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;cross-origin-courier&#039;</span><span style="color: #000000">;</span>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">connect</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;cross-origin-courier&#039;</span><span style="color: #000000">;</span>
 <span style="color: #008000">// ...</span>
-<span style="color: #795E26">createConnection</span><span style="color: #000000">().</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">courier</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #795E26">connect</span><span style="color: #000000">().</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">courier</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
 <span style="color: #000000">    </span><span style="color: #001080">courier</span><span style="color: #000000">.</span><span style="color: #795E26">listen</span><span style="color: #000000">(</span><span style="color: #001080">handler</span><span style="color: #000000">);</span>
+<span style="color: #000000">    </span><span style="color: #001080">courier</span><span style="color: #000000">.</span><span style="color: #795E26">send</span><span style="color: #000000">({ </span><span style="color: #001080">answer:</span><span style="color: #000000"> </span><span style="color: #098658">42</span><span style="color: #000000"> });</span>
 <span style="color: #000000">});</span>
 
 <span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">handler</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">) {</span>
@@ -101,13 +99,10 @@
 				</a>
 				<pre><code class="language-html"><span style="color: #800000">&lt;script</span><span style="color: #000000FF"> </span><span style="color: #FF0000">src</span><span style="color: #000000FF">=</span><span style="color: #0000FF">&quot;https://unpkg.com/cross-origin-courier&quot;</span><span style="color: #800000">&gt;&lt;/script&gt;</span>
 </code></pre>
-				<pre><code class="language-js"><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">createConnection</span><span style="color: #000000">().</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">courier</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #001080">courier</span><span style="color: #000000">.</span><span style="color: #795E26">listen</span><span style="color: #000000">(</span><span style="color: #001080">handler</span><span style="color: #000000">);</span>
+				<p>Loaded this way, the connection function is exposed under the following long-ish name</p>
+				<pre><code class="language-js"><span style="color: #001080">window</span><span style="color: #000000">.</span><span style="color: #795E26">createCrossOrigConnection</span><span style="color: #000000">().</span><span style="color: #795E26">then</span><span style="color: #000000">(</span><span style="color: #001080">courier</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">    </span><span style="color: #008000">// ...</span>
 <span style="color: #000000">});</span>
-
-<span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">handler</span><span style="color: #000000">(</span><span style="color: #001080">data</span><span style="color: #000000">) {</span>
-<span style="color: #000000">    </span><span style="color: #008000">// do your stuff</span>
-<span style="color: #000000">}</span>
 </code></pre>
 				<a href="#options" id="options" style="color: inherit; text-decoration: none;">
 					<h2>Options</h2>
@@ -147,6 +142,28 @@
 							<td align="center">boolean</td>
 							<td align="right">false</td>
 							<td align="left">todo</td>
+						</tr>
+				</tbody></table>
+				<a href="#courier-api" id="courier-api" style="color: inherit; text-decoration: none;">
+					<h2>Courier API</h2>
+				</a>
+				<table>
+					<thead>
+						<tr>
+							<th align="right">Method</th>
+							<th align="center">Arguments</th>
+							<th align="left">Description</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td align="right"><code>send</code></td>
+							<td align="center"><code>data</code>&lt;<a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">any</a>&gt;</td>
+							<td align="left">Sends data to the counterparty</td>
+						</tr>
+						<tr>
+							<td align="right"><code>listen</code></td>
+							<td align="center"><code>dataHandler</code>&lt;(data: any) =&gt; void&gt;</td>
+							<td align="left">Sets a handler for the counterparty messages</td>
 						</tr>
 				</tbody></table>
 				<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
